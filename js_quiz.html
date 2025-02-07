@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Programming Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #93DEFF;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 450px;
+  padding: 20px;
+  margin-top: 80px;
+  background-color: #323643;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+.question {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.options {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.option {
+  display: block;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #428bca;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #3071a9;
+  text-align: center;
+}
+
+.result {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.hide{
+  display: none;
+}
+
+.align{
+    text-align: center;
+}
+</style>
+<body>
+  <div class="container">
+    <h1>Programming Quiz</h1>
+    <div id="quiz"></div>
+    <div id="result" class="result"></div>
+    <div class="align">
+    <button id="submit" class="button">Submit</button>
+    <button id="retry" class="button hide">Retry</button>
+    <button id="showAnswer" class="button hide">Show Answer</button>
+</div>
+    <footer>
+        <p style = "text-align: center;">Copyright &copy; 2025, All Rights Reserved</p>
+    </footer>
+  </div>
+  <script type="text/javascript">
+      const quizData = [
+  {
+    question: 'HTML stands for what?',
+    options: ['How to Make Lumpia', 'Hypertext Markup Language', 'Hypertext Marketing Language', 'Hypertext Martin Luis'],
+    answer: 'Hypertext Markup Language',
+  },
+  {
+    question: 'Who invented HTML?',
+    options: ['Bill Gates', 'Mark Zuckerberg', 'Tim Berners-Lee', 'Jeff Bezos'],
+    answer: 'Tim Berners-Lee',
+  },
+  {
+    question: 'What year HTML invented?',
+    options: ['1990', '1992', '1991', '1989'],
+    answer: '1991',
+  },
+  {
+    question: 'Who invented Javascript?',
+    options: ['Mark Zuckerberg ', 'Bill Gates', 'Tim Berners-Lee', 'Bredan Eich'],
+    answer: 'Bredan Eich',
+  },
+  {
+    question: 'What year invented Javascript?',
+    options: [
+      '1994',
+      '1995',
+      '1996',
+      '1993',
+    ],
+    answer: '1995',
+  },
+  {
+    question: 'Who invented CSS?',
+    options: ['Tim Berners-Lee', 'Bredan Eich', 'Bill Gates', 'Håkon Wium Lie'],
+    answer: 'Håkon Wium Lie',
+  },
+  {
+    question: 'What year invented CSS?',
+    options: [
+      '1992',
+      '1993',
+      '1994',
+      '1995',
+    ],
+    answer: '1994',
+  },
+  {
+    question: 'CSS stands for what?',
+    options: ['Cascading Style Sheets', 'Cascading Style System', 'Cascading Style Steam', 'Cascading System Style'],
+    answer: 'Cascading Style Sheets',
+  },
+  {
+    question: 'What is the most popular programming languages in 2025?',
+    options: [
+      'C++',
+      'C#',
+      'Python',
+      'Java',
+    ],
+    answer: 'Python',
+  },
+  {
+    question: 'Who invented PHP programming Language?',
+    options: ['Andi Gatmans', 'Sebastian Bergmann', 'Rasmus Lerdorf', 'Guido Van Rossum'],
+    answer: 'Rasmus Lerdorf',
+  },
+];
+
+const quizContainer = document.getElementById('quiz');
+const resultContainer = document.getElementById('result');
+const submitButton = document.getElementById('submit');
+const retryButton = document.getElementById('retry');
+const showAnswerButton = document.getElementById('showAnswer');
+
+let currentQuestion = 0;
+let score = 0;
+let incorrectAnswers = [];
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function displayQuestion() {
+  const questionData = quizData[currentQuestion];
+
+  const questionElement = document.createElement('div');
+  questionElement.className = 'question';
+  questionElement.innerHTML = questionData.question;
+
+  const optionsElement = document.createElement('div');
+  optionsElement.className = 'options';
+
+  const shuffledOptions = [...questionData.options];
+  shuffleArray(shuffledOptions);
+
+  for (let i = 0; i < shuffledOptions.length; i++) {
+    const option = document.createElement('label');
+    option.className = 'option';
+
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'quiz';
+    radio.value = shuffledOptions[i];
+
+    const optionText = document.createTextNode(shuffledOptions[i]);
+
+    option.appendChild(radio);
+    option.appendChild(optionText);
+    optionsElement.appendChild(option);
+  }
+
+  quizContainer.innerHTML = '';
+  quizContainer.appendChild(questionElement);
+  quizContainer.appendChild(optionsElement);
+}
+
+function checkAnswer() {
+  const selectedOption = document.querySelector('input[name="quiz"]:checked');
+  if (selectedOption) {
+    const answer = selectedOption.value;
+    if (answer === quizData[currentQuestion].answer) {
+      score++;
+    } else {
+      incorrectAnswers.push({
+        question: quizData[currentQuestion].question,
+        incorrectAnswer: answer,
+        correctAnswer: quizData[currentQuestion].answer,
+      });
+    }
+    currentQuestion++;
+    selectedOption.checked = false;
+    if (currentQuestion < quizData.length) {
+      displayQuestion();
+    } else {
+      displayResult();
+    }
+  }
+}
+
+function displayResult() {
+  quizContainer.style.display = 'none';
+  submitButton.style.display = 'none';
+  retryButton.style.display = 'inline-block';
+  showAnswerButton.style.display = 'inline-block';
+  resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}!`;
+}
+
+function retryQuiz() {
+  currentQuestion = 0;
+  score = 0;
+  incorrectAnswers = [];
+  quizContainer.style.display = 'block';
+  submitButton.style.display = 'inline-block';
+  retryButton.style.display = 'none';
+  showAnswerButton.style.display = 'none';
+  resultContainer.innerHTML = '';
+  displayQuestion();
+}
+
+function showAnswer() {
+  quizContainer.style.display = 'none';
+  submitButton.style.display = 'none';
+  retryButton.style.display = 'inline-block';
+  showAnswerButton.style.display = 'none';
+
+  let incorrectAnswersHtml = '';
+  for (let i = 0; i < incorrectAnswers.length; i++) {
+    incorrectAnswersHtml += `
+      <p>
+        <strong>Question:</strong> ${incorrectAnswers[i].question}<br>
+        <strong>Your Answer:</strong> ${incorrectAnswers[i].incorrectAnswer}<br>
+        <strong>Correct Answer:</strong> ${incorrectAnswers[i].correctAnswer}
+      </p>
+    `;
+  }
+
+  resultContainer.innerHTML = `
+    <p>You scored ${score} out of ${quizData.length}!</p>
+    <p>Incorrect Answers:</p>
+    ${incorrectAnswersHtml}
+  `;
+}
+
+submitButton.addEventListener('click', checkAnswer);
+retryButton.addEventListener('click', retryQuiz);
+showAnswerButton.addEventListener('click', showAnswer);
+
+displayQuestion();
+  </script>
+</body>
+</html>
