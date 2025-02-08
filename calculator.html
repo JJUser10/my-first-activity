@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}body {
+    min-height: 100vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2C2F36;
+}
+.calculator {
+    width: 300px;
+    height: 500px;
+    box-shadow: 4px 4px 30px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    background: #222522;
+    overflow: hidden;
+    font:sans-serif;
+    position: fixed;
+}
+form input {
+    width: 100%;
+    height: 150px;
+    border: none;
+    border-radius: 12px;
+    font-size: 2rem;
+    padding: 1rem;
+    color: #FFFFFF;
+    background: #333;
+    text-align: right;
+    pointer-events: none;
+}
+.button {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+button {
+    flex: 0 0 22%;
+    margin: 5px 0;
+    border: 1px solid #000;
+    width: 60px;
+    height: 52px;
+    font-size: 22px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #E0E0E0
+}
+.btn-yellow {
+    background: #33B4B1;
+    color: #fff;
+}
+.btn-grey {
+    background: rgb(224, 224, 224);
+    color: #000;
+}
+.btn-equal {
+    background: #4CAF50;
+    color: #fff;
+}
+.btn-clear {
+    background: #E53935;
+    color: #fff;
+    flex: 0 0 100%;
+}
+      footer {
+        margin-top: 20px;
+        color: white;
+        text-align: center;
+        font-size: 1rem;
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        font-family: sans-serif;
+        position: fixed;
+      }
+      @media (max-width: 600px) {
+  .calculator {
+    width: 90%;
+    height: auto;
+  }
+
+  .button {
+    padding: 5px;
+  }
+
+  button {
+    font-size: 18px; /* Make button text smaller for mobile */
+    width: 50px; /* Make buttons smaller for mobile */
+    height: 45px;
+  }
+
+  form input {
+    font-size: 1.5rem; /* Make input font smaller for mobile */
+  }
+
+  footer {
+    font-size: 0.9rem;
+  }
+}
+    </style>
+</head>
+<body>
+    <section class="calculator">
+        <form>
+            <input type="text" class="screen" readonly>
+        </form>
+        <div class="button">
+            <button type="button" class="btn btn-yellow" data-num="*">*</button>
+            <button type="button" class="btn btn-yellow" data-num="/">/</button>
+            <button type="button" class="btn btn-yellow" data-num="-">-</button>
+            <button type="button" class="btn btn-yellow" data-num="+">+</button>
+            <button type="button" class="btn btn-grey" data-num="9">9</button>
+            <button type="button" class="btn btn-grey" data-num="8">8</button>
+            <button type="button" class="btn btn-grey" data-num="7">7</button>
+            <button type="button" class="btn btn-grey" data-num="6">6</button>
+            <button type="button" class="btn btn-grey" data-num="5">5</button>
+            <button type="button" class="btn btn-grey" data-num="4">4</button>
+            <button type="button" class="btn btn-grey" data-num="3">3</button>
+            <button type="button" class="btn btn-grey" data-num="2">2</button>
+            <button type="button" class="btn btn-grey" data-num="1">1</button>
+            <button type="button" class="btn btn-grey" data-num="0">0</button>
+            <button type="button" class="btn btn-grey" data-num=".">.</button>
+            <button type="button" class="btn btn-equal">=</button>
+            <button type="button" class="btn btn-clear">AC</button>
+        </div>
+    </section>
+        <footer>
+        <p>&copy; 2025 Calculator | Designed with JJ</p>
+    </footer>
+    <script type="text/javascript">
+      (function() {
+    let screen = document.querySelector('.screen');
+    let buttons = document.querySelectorAll('.btn');
+    let clear = document.querySelector('.btn-clear');
+    let equal = document.querySelector('.btn-equal');
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            let value = e.target.dataset.num;
+            if (value !== undefined) {
+                screen.value += value;
+            }
+        });
+    });
+    equal.addEventListener('click', function(e) {
+  if (!screen.value || /^[+\-*/.]+$/.test(screen.value)) {
+            alert('Please enter a valid value');
+        } else {
+            try {
+                let answer = eval(screen.value);
+                screen.value = answer;
+            } catch (error) {
+                screen.value = "Error";
+            }
+        }
+    });
+    clear.addEventListener('click', function(e) {
+        screen.value = "";
+    });
+    document.addEventListener('keydown', function(e) {
+    let key = e.key;
+    if ('0123456789*/-+'.includes(key)) {
+        screen.value += key;
+    } else if (key === 'Enter') {
+        equal.click();
+    } else if (key === 'Backspace') {
+        screen.value = screen.value.slice(0, -1);
+    }
+});
+    })()
+    </script>
+</body>
+</html>
