@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Tester</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        body {
+            font-family: Arial, Geneva, sans-serif;
+            text-align: center;
+        }
+        #box {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            display: none;
+            position: absolute;
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Animation */
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .glow-on-hover {
+            width: 220px;
+            height: 50px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: #111;
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .glow-on-hover:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+            border-radius: 10px;
+        }
+        .glow-on-hover:hover:before {
+            opacity: 1;
+        }
+        .glow-on-hover:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+            z-index: -1;
+        }
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Test your reactions!</h1>
+    <p>Click on the boxes and circles as quickly as you can!</p>
+    <p class="bold">Your time: <span id="time">0</span>s</p>
+
+    <button id="startGame" class="glow-on-hover">Start Game</button>
+    <button id="resetGame" class="glow-on-hover">Reset</button>
+
+    <div id="box"></div>
+
+    <script>
+        function getRandomColor() {
+            var letters = "0123456789ABCDEF".split("");
+            var color = "#";
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        var clickedTime, createdTime, reactionTime;
+        var gameStarted = false;
+
+        function makeBox() {
+            if (!gameStarted) return;
+
+            var time = Math.random() * 3000 + 1000; // Random time between 1s - 4s
+
+            setTimeout(function() {
+                var shape = Math.random() > 0.5 ? "100px" : "0"; // Circle or square
+
+                var maxTop = window.innerHeight - 250;
+                var minTop = 150;
+                var top = Math.random() * (maxTop - minTop) + minTop;
+
+                var left = Math.random() * (window.innerWidth - 250);
+
+                $("#box").css({
+                    "border-radius": shape,
+                    "top": top + "px",
+                    "left": left + "px",
+                    "background-color": getRandomColor(),
+                    "display": "block",
+                    "transform": "scale(1)",  // Reset scale for animation
+                    "opacity": "1" // Reset opacity for animation
+                });
+
+                createdTime = Date.now();
+            }, time);
+        }
+
+        $("#box").click(function() {
+            clickedTime = Date.now();
+            reactionTime = (clickedTime - createdTime) / 1000;
+            $("#time").text(reactionTime + "s");
+
+            // Animate on click (shrink & fade out)
+            $(this).css({
+                "transform": "scale(0.1)",
+                "opacity": "0"
+            });
+
+            setTimeout(makeBox, 300); // Wait for animation to complete before generating new shape
+        });
+
+        $("#startGame").click(function() {
+            gameStarted = true;
+            makeBox();
+        });
+
+        $("#resetGame").click(function() {
+            gameStarted = false;
+            $("#box").hide();
+            $("#time").text("0s");
+        });
+    </script>
+</body>
+</html>
