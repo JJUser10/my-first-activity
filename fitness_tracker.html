@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #86A788;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #FBF6E9;
+            font-size: 2rem;
+        }
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab-buttons button {
+            background: #798645;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+        .tab-buttons button:hover {
+            background: #6A9C89;
+            transform: scale(1.1);
+        }
+        .tab {
+            display: none;
+            background: #FEFAE0;
+            padding: 20px;
+            margin-top: 10px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .accordion {
+            background: #798645;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 18px;
+            margin-top: 10px;
+            transition: all 0.3s;
+            border-radius: 10px;
+        }
+        .accordion:hover {
+            background: #6A9C89;
+            transform: scale(1.05);
+        }
+        .panel {
+            display: none;
+            padding: 15px;
+            background-color: #F5F7F8;
+            overflow: hidden;
+            margin-top: 5px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .video-frame {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            border: none;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        ul li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+        ul li strong {
+            margin-right: 10px;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>My Fitness Tracker</h1>
+    
+    <div class="tab-buttons">
+        <button onclick="openTab('workouts')">Workouts</button>
+        <button onclick="openTab('nutrition')">Nutrition</button>
+    </div>
+    
+    <div id="workouts" class="tab">
+        <h2>Workouts</h2>
+        
+        <button class="accordion">Push-Ups</button>
+        <div class="panel">
+            <p><b>Description: </b>A push-up is a bodyweight exercise that strengthens your chest, shoulders, and core.</p>
+            <p><b>Steps: </b></p>
+            <ol>
+                <li>Start in a plank position with hands shoulder-width apart.</li>
+                <li>Lower your body until your chest almost touches the floor.</li>
+                <li>Push back up to the starting position.</li>
+                <li>Repeat for the desired number of reps.</li>
+            </ol>
+            <iframe class="video-frame" src="https://www.youtube.com/embed/IODxDxX7oi4" allowfullscreen></iframe>
+        </div>
+        
+        <button class="accordion">Squats</button>
+        <div class="panel">
+            <p><b>Description: </b>A squat is a strength exercise that involves bending the knees and hips to lower the body as if sitting in a chair.</p>
+            <p><b>Steps: </b></p>
+            <ol>
+                <li>Stand with feet shoulder-width apart.</li>
+                <li>Lower your hips down and back as if sitting on a chair.</li>
+                <li>Keep your chest up and knees behind your toes.</li>
+                <li>Return to standing position and repeat.</li>
+            </ol>
+            <iframe class="video-frame" src="https://www.youtube.com/embed/aclHkVaku9U" allowfullscreen></iframe>
+        </div>
+        
+        <button class="accordion">Plank</button>
+        <div class="panel">
+            <p><b>Description: </b>A plank is a core strengthening exercise that involves holding a position similar to a push-up. Planks can help you build strength, support your spine, and prevent injury. </p>
+            <p><b>Steps: </b></p>
+            <ol>
+                <li>Start in a forearm plank position.</li>
+                <li>Keep your body in a straight line from head to heels.</li>
+                <li>Engage your core and hold the position.</li>
+                <li>Maintain for the desired duration.</li>
+            </ol>
+            <iframe class="video-frame" src="https://www.youtube.com/embed/pSHjTRCQxIw" allowfullscreen></iframe>
+        </div>
+    </div>
+    
+    <div id="nutrition" class="tab">
+        <h2>Nutrition</h2>
+        <ul>
+            <li><strong>Breakfast:</strong> Oatmeal with Fruits - Rich in fiber, supports digestion, and provides long-lasting energy.</li>
+            <li><strong>Lunch:</strong> Grilled Chicken Salad - High in protein for muscle repair, packed with vitamins for overall health.</li>
+            <li><strong>Dinner:</strong> Baked Salmon with Vegetables - Great source of Omega-3 for heart health and essential nutrients.</li>
+            <li><strong>Snack:</strong> Greek Yogurt with Honey - A good source of probiotics for gut health and protein for muscle maintenance.</li>
+            <li><strong>Post-Workout:</strong> Protein Shake - Helps muscle recovery, boosts muscle growth, and replenishes energy levels.</li>
+        </ul>
+        </ul>
+    </div>
+    
+    <script>
+        function openTab(tabName) {
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabName).style.display = 'block';
+        }
+        
+        var acc = document.querySelectorAll(".accordion");
+        acc.forEach(button => {
+            button.addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        });
+        
+        openTab('workouts');
+    </script>
+
+</body>
+</html>
